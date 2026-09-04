@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>mem20 — Persistent Memory + Cognition for AI Agents</title>
+<meta name="description" content="mem20 is an auditable memory and cognition substrate for AI agents. Grounded recall you can prove, simulation you can fence.">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">mem20<span>/</span></a>
+    <div class="nav-links">
+      <a href="docs.html">Docs</a>
+      <a href="use-cases.html">Use Cases</a>
+      <a href="roadmap.html">Roadmap</a>
+      <a href="contributors.html">Contributors</a>
+      <a href="beta.html" class="nav-cta">Beta Signup</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-badge"><span class="dot"></span>v2.1.0-rc2 · code frozen, QA audit in progress</div>
+    <h1>The <span class="hl">auditable memory</span> + cognition substrate for AI agents</h1>
+    <p class="hero-sub">Grounded recall you can prove. Simulation you can fence. mem20 separates real memory from imagined memory at the storage layer — and enforces that separation with a contamination firewall.</p>
+    <div class="hero-actions">
+      <a href="beta.html" class="btn btn-primary">Join the Beta →</a>
+      <a href="docs.html" class="btn btn-outline">Read the Docs</a>
+    </div>
+  </div>
+</section>
+
+<!-- STATS BAR -->
+<div class="stats-bar">
+  <div class="stat"><div class="stat-val">97</div><div class="stat-label">MCP Tools</div></div>
+  <div class="stat"><div class="stat-val">13</div><div class="stat-label">Tool Domains</div></div>
+  <div class="stat"><div class="stat-val">0.0</div><div class="stat-label">Contamination Rate</div></div>
+  <div class="stat"><div class="stat-val">MIT</div><div class="stat-label">License</div></div>
+</div>
+
+<!-- VISION -->
+<section style="background:var(--bg-alt)">
+  <div class="wrap">
+    <div class="section-label">Project Vision</div>
+    <h2>Memory that earns trust through proof</h2>
+    <p style="max-width:720px;font-size:1.05rem">Today's AI agents hallucinate, confabulate, and forget — not because they're broken, but because their memory systems treat every stored token as equally real. mem20 fixes that by partitioning memory at the engine level:</p>
+
+    <div class="features">
+      <div class="feature-card">
+        <div class="feature-icon">🧠</div>
+        <h3>Grounded Memory</h3>
+        <p>Facts derived from real observations, user statements, or events. Indexed, searchable, and always attributable.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">💭</div>
+        <h3>Simulated Memory</h3>
+        <p>Hypotheticals, counterfactuals, and imagined scenarios — fenced off from recall indexes, never contaminating grounded truth.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🛡️</div>
+        <h3>Evidence-Based Promotion</h3>
+        <p>Simulated records become grounded only when paired with real-world prediction resolution — not free-text self-assertion.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🔍</div>
+        <h3>Audit Engine</h3>
+        <p>Run <code>memory_audit_contamination()</code> anytime. A clean system reports rate 0.0 — and the firewall makes that invariant structural.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">⚡</div>
+        <h3>MCP-Native</h3>
+        <p>Speaks Model Context Protocol over stdio. Drop into Hermes, Claude, Cursor, or any MCP host. 97 tools, 13 domains.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🔌</div>
+        <h3>Pluggable Integrations</h3>
+        <p>Blender and Unity ship as optional modules. Add Figma, Unreal, or anything else via the blank integration template.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section>
+  <div class="wrap-narrow">
+    <div class="section-label">How It Works</div>
+    <h2>Four layers, one hard invariant</h2>
+    <p>mem20 is not a wrapper around a vector DB. It's a purpose-built memory engine with protocol, cognition, storage, and governance layers — all enforcing a single rule: <strong>simulated content never reaches grounded indexes</strong>.</p>
+
+    <div class="callout">
+      <div class="callout-title">The Invariant</div>
+      <p>Vector and BM25 indexes are grounded-only by construction. <code>_add_to_vector_index()</code> and <code>_add_to_bm25_index()</code> call <code>_assert_grounded()</code> on the lowest write path. Contamination is impossible regardless of which tool invoked the write.</p>
+    </div>
+
+    <table>
+      <tr><th>Layer</th><th>What it does</th><th>Where it lives</th></tr>
+      <tr><td>Transport</td><td>MCP server, JSON-RPC 2.0 over stdio</td><td><code>mcp/mcp_server.py</code></td></tr>
+      <tr><td>Cognition</td><td>Plan, chain, reason, reflect, working memory</td><td><code>cog/cognitive_engine.py</code></td></tr>
+      <tr><td>Memory</td><td>Grounded vs simulated store, vector + BM25 indexes</td><td><code>memory_engine/memory.py</code></td></tr>
+      <tr><td>Governance</td><td>Contamination guards, epistemic veto, audit</td><td>Enforced at the store engine level</td></tr>
+    </table>
+  </div>
+</section>
+
+<!-- USE CASE PREVIEW -->
+<section style="background:var(--bg-alt)">
+  <div class="wrap">
+    <div class="section-label">What It's For</div>
+    <h2>Built for teams who can't afford confabulation</h2>
+    <div class="features">
+      <div class="feature-card">
+        <h3>🤖 Multi-Agent Fleets</h3>
+        <p>126 bots, isolated namespaces, cross-contamination rate 0%. Persistent per-bot memory that survives restarts and model swaps.</p>
+      </div>
+      <div class="feature-card">
+        <h3>🏗️ Long-Running Agents</h3>
+        <p>Working memory that persists across sessions. An agent that remembers what it was doing yesterday, last week, last month.</p>
+      </div>
+      <div class="feature-card">
+        <h3>🧪 Research & Simulation</h3>
+        <p>Run counterfactuals without polluting grounded recall. Promote simulations to facts only when evidence supports it.</p>
+      </div>
+    </div>
+    <div class="text-center mt-40">
+      <a href="use-cases.html" class="btn btn-outline">See All Use Cases →</a>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section style="text-align:center">
+  <div class="wrap-narrow">
+    <h2>Ready to give your agents real memory?</h2>
+    <p class="mb-40">Join the beta. Get early access, direct input on the roadmap, and a channel to the team building it.</p>
+    <a href="beta.html" class="btn btn-primary">Sign Up for Beta →</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-copy">© 2026 mem20 · MIT License · Built by <a href="https://github.com/JaysonAIOnline" style="color:var(--accent)">JaysonAIOnline</a></div>
+    <div class="footer-links">
+      <a href="https://github.com/JaysonAIOnline/mem20">GitHub</a>
+      <a href="docs.html">Docs</a>
+      <a href="roadmap.html">Roadmap</a>
+      <a href="beta.html">Beta</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

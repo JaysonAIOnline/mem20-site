@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Beta Signup — mem20</title>
+<meta name="description" content="Join the mem20 beta — early access to persistent memory for AI agents.">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">mem20<span>/</span></a>
+    <div class="nav-links">
+      <a href="docs.html">Docs</a>
+      <a href="use-cases.html">Use Cases</a>
+      <a href="roadmap.html">Roadmap</a>
+      <a href="contributors.html">Contributors</a>
+      <a href="beta.html" class="nav-cta">Beta Signup</a>
+    </div>
+  </div>
+</nav>
+
+<div class="page-header">
+  <h1>Beta Signup</h1>
+  <p>Get early access. Shape the roadmap. Build agents with real memory.</p>
+</div>
+
+<section class="content-section">
+  <div class="wrap-narrow">
+
+    <div class="callout">
+      <div class="callout-title">What You Get</div>
+      <p>Early access to mem20 releases, direct input on the roadmap, a channel to the core team, and the satisfaction of helping build memory systems agents can actually trust.</p>
+    </div>
+
+    <h2 class="mt-40">Sign Up</h2>
+    <p>Fill this out and we'll get you into the beta program. We review every submission — no automated gatekeeping.</p>
+
+    <div class="form-wrap">
+      <form action="https://formspree.io/f/mbavyrkr" method="POST" id="beta-form">
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="name">Name *</label>
+            <input class="form-input" type="text" id="name" name="name" required placeholder="Your name">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="email">Email *</label>
+            <input class="form-input" type="email" id="email" name="email" required placeholder="you@company.com">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="company">Company / Project</label>
+          <input class="form-input" type="text" id="company" name="company" placeholder="What are you working on?">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="use_case">What will you use mem20 for? *</label>
+          <select class="form-select" id="use_case" name="use_case" required>
+            <option value="" disabled selected>Select a use case</option>
+            <option value="multi-agent-fleet">Multi-agent fleet</option>
+            <option value="long-running-agent">Long-running agent</option>
+            <option value="research-simulation">Research / simulation</option>
+            <option value="customer-facing">Customer-facing AI</option>
+            <option value="creative-3d">Creative / 3D workflows</option>
+            <option value="safety-critical">Safety-critical deployment</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="agents">How many agents do you run?</label>
+          <select class="form-select" id="agents" name="agents">
+            <option value="" disabled selected>Select range</option>
+            <option value="1-5">1–5</option>
+            <option value="6-25">6–25</option>
+            <option value="26-100">26–100</option>
+            <option value="100+">100+</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for=" Tell us about your memory pain point">Tell us about your memory pain point</label>
+          <textarea class="form-textarea" id="pain_point" name="pain_point" placeholder="What breaks when your agents forget? What do you wish they could remember?"></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center">Submit Application →</button>
+      </form>
+    </div>
+
+    <div id="form-success" style="display:none;margin-top:24px" class="callout">
+      <div class="callout-title">Application Received</div>
+      <p>Thanks — we'll review your submission and get back to you within 48 hours. Watch your email.</p>
+    </div>
+
+    <h2 class="mt-40">Beta Charter</h2>
+    <p>The beta runs for 4 weeks with these goals:</p>
+    <ul>
+      <li><strong>Scope:</strong> Grounded recall, simulation fence, causal simulation</li>
+      <li><strong>Success bar:</strong> Zero contamination incidents during beta</li>
+      <li><strong>Feature flags:</strong> New features behind <code>MEM20_FLAG_*</code> toggles — off by default for 1.0 compatibility</li>
+      <li><strong>Support:</strong> Direct channel to the team, /metrics walkthrough, contamination report process</li>
+    </ul>
+
+    <h3 class="mt-40">After the Beta</h3>
+    <p>Beta graduates get:</p>
+    <ul>
+      <li>Continued access to pre-release builds</li>
+      <li>Roadmap voting rights</li>
+      <li>A contributor credit on the site (if you want it)</li>
+      <li>First access to new integrations as they ship</li>
+    </ul>
+
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-copy">© 2026 mem20 · MIT License</div>
+    <div class="footer-links">
+      <a href="https://github.com/JaysonAIOnline/mem20">GitHub</a>
+      <a href="docs.html">Docs</a>
+      <a href="roadmap.html">Roadmap</a>
+      <a href="beta.html">Beta</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+document.getElementById('beta-form').addEventListener('submit', function(e) {
+  e.preventDefault();
+  var form = this;
+  fetch(form.action, {
+    method: 'POST',
+    body: new FormData(form),
+    headers: { 'Accept': 'application/json' }
+  }).then(function(res) {
+    if (res.ok) {
+      form.style.display = 'none';
+      document.getElementById('form-success').style.display = 'block';
+    } else {
+      alert('Something went wrong. Please try again or email us directly.');
+    }
+  }).catch(function() {
+    alert('Submission failed. Please try again or email us directly.');
+  });
+});
+</script>
+
+</body>
+</html>

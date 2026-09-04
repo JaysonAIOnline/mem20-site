@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Contributors — mem20</title>
+<meta name="description" content="The people building mem20 — engineers, researchers, and designers.">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">mem20<span>/</span></a>
+    <div class="nav-links">
+      <a href="docs.html">Docs</a>
+      <a href="use-cases.html">Use Cases</a>
+      <a href="roadmap.html">Roadmap</a>
+      <a href="contributors.html">Contributors</a>
+      <a href="beta.html" class="nav-cta">Beta Signup</a>
+    </div>
+  </div>
+</nav>
+
+<div class="page-header">
+  <h1>Contributors</h1>
+  <p>The people building persistent memory for AI agents.</p>
+</div>
+
+<section class="content-section">
+  <div class="wrap-narrow">
+
+    <h2>Core Team</h2>
+    <p>The humans behind the contamination firewall.</p>
+
+    <div class="contrib-grid">
+
+      <div class="contrib-card">
+        <div class="contrib-avatar">J</div>
+        <div class="contrib-name">Jayson</div>
+        <div class="contrib-role">Project Lead / Architect</div>
+        <div class="contrib-bio">Designing memory systems that earn trust through proof. Building mem20 because agents deserve memory they can audit.</div>
+      </div>
+
+      <div class="contrib-card">
+        <div class="contrib-avatar">C</div>
+        <div class="contrib-name">Coach</div>
+        <div class="contrib-role">VP Bot Relations</div>
+        <div class="contrib-bio">Runs the multi-agent fleet on mem20 daily. Tests concurrency, validates cognitive features, documents what breaks.</div>
+      </div>
+
+      <div class="contrib-card">
+        <div class="contrib-avatar">Q</div>
+        <div class="contrib-name">QAMaster</div>
+        <div class="contrib-role">VP Quality</div>
+        <div class="contrib-bio">Owns the audit suite, contamination tests, and QA gates. Will not ship if contamination_rate != 0.</div>
+      </div>
+
+      <div class="contrib-card">
+        <div class="contrib-avatar">B</div>
+        <div class="contrib-name">Blendie</div>
+        <div class="contrib-role">VP Creativity</div>
+        <div class="contrib-bio">Leads creative and 3D integrations. Blender module, Unity module, and the design tools roadmap.</div>
+      </div>
+
+    </div>
+
+    <h2 class="mt-40">Contribute</h2>
+    <p>mem20 is MIT-licensed and open to contributions. Here's how to get involved:</p>
+
+    <ul>
+      <li><strong>Code:</strong> Fork the <a href="https://github.com/JaysonAIOnline/mem20">GitHub repo</a>, pick up a TODO-tagged issue, and open a PR</li>
+      <li><strong>Docs:</strong> Improve the README, add examples, write guides — docs are code too</li>
+      <li><strong>Integrations:</strong> Use the blank integration template to add support for your favorite tool</li>
+      <li><strong>Beta testing:</strong> <a href="beta.html">Sign up</a>, run mem20 in your stack, report what breaks</li>
+      <li><strong>Research:</strong> Cognitive architecture, memory grounding, epistemic safety — we want to hear your ideas</li>
+    </ul>
+
+    <div class="callout">
+      <div class="callout-title">Development Note</div>
+      <p>Engine logic lives in <code>memory_engine/memory.py</code>, not the MCP server. MCP tools are thin handlers. To contribute effectively, start by reading the store engine, not the server layer.</p>
+    </div>
+
+    <h3 class="mt-40">Adding a New Integration</h3>
+    <ol>
+      <li>Create <code>mcp/tools/&lt;name&gt;_tools.py</code> with a <code>&lt;Name&gt;ToolsMixin</code></li>
+      <li>Guard any external executable with a graceful check</li>
+      <li>Add the mixin to <code>Mem20MCPServer</code>'s bases in <code>server.py</code></li>
+      <li>Call <code>self.register_&lt;name&gt;_tools()</code> in <code>_setup_tools()</code></li>
+      <li>See <code>IntegrationToolsMixin.register_integration_template()</code> for the scaffold</li>
+    </ol>
+
+    <div class="text-center mt-40">
+      <a href="https://github.com/JaysonAIOnline/mem20" class="btn btn-primary">View on GitHub →</a>
+    </div>
+
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-copy">© 2026 mem20 · MIT License</div>
+    <div class="footer-links">
+      <a href="https://github.com/JaysonAIOnline/mem20">GitHub</a>
+      <a href="docs.html">Docs</a>
+      <a href="roadmap.html">Roadmap</a>
+      <a href="beta.html">Beta</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

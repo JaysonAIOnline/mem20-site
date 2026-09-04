@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Roadmap — mem20</title>
+<meta name="description" content="mem20 roadmap — past milestones, current status, and what's next.">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">mem20<span>/</span></a>
+    <div class="nav-links">
+      <a href="docs.html">Docs</a>
+      <a href="use-cases.html">Use Cases</a>
+      <a href="roadmap.html">Roadmap</a>
+      <a href="contributors.html">Contributors</a>
+      <a href="beta.html" class="nav-cta">Beta Signup</a>
+    </div>
+  </div>
+</nav>
+
+<div class="page-header">
+  <h1>Roadmap</h1>
+  <p>Where mem20 came from, where it is, and where it's going.</p>
+</div>
+
+<section class="content-section">
+  <div class="wrap-narrow">
+
+    <h2>Current Status</h2>
+    <p>mem20 is at <strong>v2.1.0-rc2</strong> — code frozen, QA audit in progress. The 2.0 baseline is production-ready. 2.1 adds pluggable integrations (Blender, Unity), standalone packaging, and instrumentation.</p>
+
+    <div class="callout">
+      <div class="callout-title">Public Launch Target</div>
+      <p>October 31, 2026. Beta access opens before then — <a href="beta.html">sign up</a>.</p>
+    </div>
+
+    <h2 class="mt-40">Timeline</h2>
+    <div class="timeline">
+
+      <div class="timeline-item done">
+        <div class="timeline-phase">v1.0 — Initial Release</div>
+        <div class="timeline-title">Foundation</div>
+        <div class="timeline-desc">First MCP server with memory and cognition tools. Proved the concept.</div>
+      </div>
+
+      <div class="timeline-item done">
+        <div class="timeline-phase">v2.0 — Hardening Baseline</div>
+        <div class="timeline-title">Safety + Scale</div>
+        <div class="timeline-desc">Phase 7 hardening. Modular MCP decomposition (97 tools, 13 domains). Health endpoint, audit response, contamination firewall.</div>
+      </div>
+
+      <div class="timeline-item done">
+        <div class="timeline-phase">v2.1-rc2 — Current</div>
+        <div class="timeline-title">Pluggable Integrations + Packaging</div>
+        <div class="timeline-desc">Blender and Unity as optional modules. Standalone packaging (requirements.txt, systemd, install.sh). Instrumentation endpoint (/metrics).</div>
+      </div>
+
+      <div class="timeline-item in-progress">
+        <div class="timeline-phase">Q4 2026</div>
+        <div class="timeline-title">Public Launch</div>
+        <div class="timeline-desc">Open-source release on GitHub. MIT license. Public documentation, beta program, community onboarding.</div>
+      </div>
+
+      <div class="timeline-item planned">
+        <div class="timeline-phase">v2.2 — Post-Launch</div>
+        <div class="timeline-title">External Vector Store</div>
+        <div class="timeline-desc">When the ledger exceeds 1M records, add an external vector store (e.g., FAISS at scale, Qdrant, or pgvector).</div>
+      </div>
+
+      <div class="timeline-item planned">
+        <div class="timeline-phase">v2.2 — Post-Launch</div>
+        <div class="timeline-title">LLM Cost Circuit Breaker</div>
+        <div class="timeline-desc">Auto-throttle LLM calls when provider bills spike. Protect runaway agent loops.</div>
+      </div>
+
+      <div class="timeline-item planned">
+        <div class="timeline-phase">v2.2 — Post-Launch</div>
+        <div class="timeline-title">Durable Metrics Sink</div>
+        <div class="timeline-desc">Persist /metrics to disk for historical analysis. Default on in 2.2.</div>
+      </div>
+
+      <div class="timeline-item planned">
+        <div class="timeline-phase">v2.2 — Post-Launch</div>
+        <div class="timeline-title">Figma + Design Integrations</div>
+        <div class="timeline-desc">Add Figma via the blank integration template. Other design tools follow.</div>
+      </div>
+
+      <div class="timeline-item planned">
+        <div class="timeline-phase">v3.0 — Future</div>
+        <div class="timeline-title">Multi-Agent Memory Sharing</div>
+        <div class="timeline-desc">Allow authorized memory sharing between agents in a fleet. Cross-agent recall with provenance.</div>
+      </div>
+
+      <div class="timeline-item planned">
+        <div class="timeline-phase">v3.0 — Future</div>
+        <div class="timeline-title">Memory Marketplace</div>
+        <div class="timeline-desc">Share and discover pre-trained memory profiles. Community-built cognitive templates.</div>
+      </div>
+
+    </div>
+
+    <h2 class="mt-40">What Shipped in 2.1</h2>
+    <table>
+      <tr><th>Feature</th><th>Status</th></tr>
+      <tr><td>Blender integration (7 tools)</td><td>✅ Shipped</td></tr>
+      <tr><td>Unity integration (5 tools)</td><td>✅ Shipped</td></tr>
+      <tr><td>Graceful degradation (no app = informative message)</td><td>✅ Shipped</td></tr>
+      <tr><td>Standalone packaging (requirements.txt, systemd, install.sh)</td><td>✅ Shipped</td></tr>
+      <tr><td>Event taxonomy + per-tool counters on /metrics</td><td>✅ Shipped</td></tr>
+      <tr><td>pytest suite (contamination, eval safety, dispatch, metrics)</td><td>✅ Shipped</td></tr>
+      <tr><td>Blank integration template</td><td>✅ Shipped</td></tr>
+    </table>
+
+    <h2 class="mt-40">How to Follow Along</h2>
+    <ul>
+      <li>Watch the <a href="https://github.com/JaysonAIOnline/mem20">GitHub repo</a> for release notifications</li>
+      <li>Join the <a href="beta.html">beta</a> for early access and roadmap input</li>
+      <li>Check /metrics on your running instance for live system health</li>
+    </ul>
+
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-copy">© 2026 mem20 · MIT License</div>
+    <div class="footer-links">
+      <a href="https://github.com/JaysonAIOnline/mem20">GitHub</a>
+      <a href="docs.html">Docs</a>
+      <a href="roadmap.html">Roadmap</a>
+      <a href="beta.html">Beta</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

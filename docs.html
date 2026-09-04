@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Docs — mem20</title>
+<meta name="description" content="mem20 documentation — architecture, setup, configuration, API reference, and governance.">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">mem20<span>/</span></a>
+    <div class="nav-links">
+      <a href="docs.html">Docs</a>
+      <a href="use-cases.html">Use Cases</a>
+      <a href="roadmap.html">Roadmap</a>
+      <a href="contributors.html">Contributors</a>
+      <a href="beta.html" class="nav-cta">Beta Signup</a>
+    </div>
+  </div>
+</nav>
+
+<div class="page-header">
+  <h1>Documentation</h1>
+  <p>Everything you need to install, configure, and run mem20 in production.</p>
+</div>
+
+<section class="content-section">
+  <div class="wrap-narrow">
+
+    <h2>Quick Start</h2>
+    <p>Get mem20 running in 60 seconds:</p>
+
+    <pre><code>git clone https://github.com/JaysonAIOnline/mem20.git
+cd mem20
+python -m venv .venv && .venv/bin/pip install -r requirements.txt
+MEM20_STORE_PATH=~/.mem20/store .venv/bin/python mcp/mcp_server.py</code></pre>
+
+    <p>Then point your MCP host at the server stdio. That's it — 97 tools, 13 domains, zero config beyond the store path.</p>
+
+    <div class="callout">
+      <div class="callout-title">Requirements</div>
+      <p>Python 3.11+, pip, and an OpenAI-compatible LLM endpoint (NVIDIA NIM by default). Optional: Blender, Unity for 3D integrations.</p>
+    </div>
+
+    <h2 class="mt-40">Architecture Overview</h2>
+    <p>mem20 has four layers that all enforce a single invariant: simulated content never reaches grounded indexes.</p>
+
+    <table>
+      <tr><th>Layer</th><th>Component</th><th>Purpose</th></tr>
+      <tr><td>Transport</td><td><code>mcp/mcp_server.py</code></td><td>JSON-RPC 2.0 over stdio, tool dispatch</td></tr>
+      <tr><td>Cognition</td><td><code>cog/cognitive_engine.py</code></td><td>Plan, chain, reason, reflect</td></tr>
+      <tr><td>Memory</td><td><code>memory_engine/memory.py</code></td><td>Grounded vs simulated store, indexes</td></tr>
+      <tr><td>Governance</td><td>Store-level guards</td><td>Contamination firewall, epistemic veto</td></tr>
+    </table>
+
+    <h3>Memory Partitions</h3>
+    <p>mem20 keeps two logical partitions:</p>
+    <ul>
+      <li><strong>Grounded memory</strong> — facts from real observations, user statements, or events. Indexed via vector embeddings + BM25.</li>
+      <li><strong>Simulated memory</strong> — hypotheticals, counterfactuals, model output. Never indexed, never reachable by recall.</li>
+    </ul>
+
+    <h3>The Contamination Firewall</h3>
+    <p>Five hard invariants keep the partition real:</p>
+    <ol>
+      <li>Vector + BM25 indexes call <code>_assert_grounded()</code> at the lowest write path</li>
+      <li><code>remember()</code> is grounded-only by default</li>
+      <li>Append-only ledger with validated origin/store tags</li>
+      <li>Promotion requires evidence (prediction resolution or external verifier)</li>
+      <li>Epistemic status stamped directly on the record</li>
+    </ol>
+
+    <h2 class="mt-40">Configuration</h2>
+    <table>
+      <tr><th>Variable</th><th>Default</th><th>Purpose</th></tr>
+      <tr><td><code>MEM20_STORE_PATH</code></td><td><code>~/.mem20/store</code></td><td>Memory engine location</td></tr>
+      <tr><td><code>MEM20_LLM_BASE_URL</code></td><td>NVIDIA NIM</td><td>LLM chat endpoint</td></tr>
+      <tr><td><code>MEM20_LLM_MODEL</code></td><td>(project default)</td><td>Model name</td></tr>
+      <tr><td><code>NVAPI_KEY</code></td><td>—</td><td>LLM bearer token (required)</td></tr>
+      <tr><td><code>MEM20_ENV_FILE</code></td><td>—</td><td>Optional .env to load keys from</td></tr>
+    </table>
+
+    <h2 class="mt-40">Deployment</h2>
+    <p>For production, mem20 runs as a systemd user service:</p>
+    <pre><code>sudo ./install.sh --user &lt;user&gt; --dir /opt/mem20</code></pre>
+
+    <p>Then verify health:</p>
+    <pre><code>curl http://localhost:8080/health   # → {"status":"ok", ...}
+curl http://localhost:8080/metrics  # → tool counters + contamination_rate</code></pre>
+
+    <h2 class="mt-40">Tool Domains (13)</h2>
+    <table>
+      <tr><th>Prefix</th><th>Domain</th></tr>
+      <tr><td><code>memory_*</code></td><td>Core memory, epistemic, ingest, pins, namespaces</td></tr>
+      <tr><td><code>self_model_*</code></td><td>Agent self-model</td></tr>
+      <tr><td><code>cog_*</code></td><td>Cognitive processing</td></tr>
+      <tr><td><code>imagination_*</code></td><td>Counterfactual simulation</td></tr>
+      <tr><td><code>theory_of_mind_*</code></td><td>Perspective simulation</td></tr>
+      <tr><td><code>corrigibility_*</code></td><td>Shutdown / capability tiers</td></tr>
+      <tr><td><code>roadmap_*</code></td><td>Roadmap registry</td></tr>
+      <tr><td><code>world_model_*</code></td><td>Variables, rules, prediction ledger</td></tr>
+      <tr><td><code>affective_*</code></td><td>Values, emotions, goals</td></tr>
+      <tr><td><code>procedural_*</code></td><td>Skill library</td></tr>
+      <tr><td><code>fs_*</code></td><td>Sandboxed filesystem</td></tr>
+      <tr><td><code>blender_*</code></td><td>Blender automation — OPTIONAL</td></tr>
+      <tr><td><code>unity_*</code></td><td>Unity automation — OPTIONAL</td></tr>
+    </table>
+
+    <h2 class="mt-40">Governance</h2>
+    <p>Safety is structural, not advisory. The audit command checks both grounded store and BM25 corpus for simulated records:</p>
+    <pre><code>{ memory_audit_contamination() }</code></pre>
+    <p>On a clean system this returns <code>contamination_rate: 0.0</code>.</p>
+
+    <div class="callout callout-warn">
+      <div class="callout-title">Epistemic Veto</div>
+      <p>Records below a trust threshold are quarantined. A plan built on simulated or low-trust premises cannot execute — the cognitive engine enforces this on every <code>plan()</code>/<code>aplan()</code> call.</p>
+    </div>
+
+    <h2 class="mt-40">Adding a Tool</h2>
+    <ol>
+      <li>Pick the domain module for your tool</li>
+      <li>Add <code>self.tools["name"] = mt.Tool(...)</code> to <code>register_&lt;domain&gt;_tools()</code></li>
+      <li>Add dispatch branch + <code>_name(self, args)</code> handler in the same mixin</li>
+      <li>Keep engine-side invariants intact</li>
+      <li>Run <code>verification/verify_refactor.py</code></li>
+    </ol>
+
+    <h2 class="mt-40">License</h2>
+    <p>MIT. See <a href="https://github.com/JaysonAIOnline/mem20/blob/main/LICENSE">LICENSE</a> on GitHub.</p>
+
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-copy">© 2026 mem20 · MIT License</div>
+    <div class="footer-links">
+      <a href="https://github.com/JaysonAIOnline/mem20">GitHub</a>
+      <a href="docs.html">Docs</a>
+      <a href="roadmap.html">Roadmap</a>
+      <a href="beta.html">Beta</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

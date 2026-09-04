@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Use Cases — mem20</title>
+<meta name="description" content="mem20 use cases — multi-agent fleets, long-running agents, research simulation, and more.">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">mem20<span>/</span></a>
+    <div class="nav-links">
+      <a href="docs.html">Docs</a>
+      <a href="use-cases.html">Use Cases</a>
+      <a href="roadmap.html">Roadmap</a>
+      <a href="contributors.html">Contributors</a>
+      <a href="beta.html" class="nav-cta">Beta Signup</a>
+    </div>
+  </div>
+</nav>
+
+<div class="page-header">
+  <h1>Use Cases</h1>
+  <p>What teams build when their agents have real, auditable memory.</p>
+</div>
+
+<section class="content-section">
+  <div class="wrap-narrow">
+
+    <h2>Multi-Agent Fleets</h2>
+    <p>Run dozens or hundreds of agents with isolated per-bot memory namespaces. Each bot maintains its own grounded recall, self-model, and procedural skills — cross-contamination rate stays at 0% by construction, not by convention.</p>
+    <div class="callout">
+      <div class="callout-title">Real-World Scale</div>
+      <p>JaysonAI runs 126 bots on mem20 today. Isolated namespaces, concurrent access, zero cross-contamination.</p>
+    </div>
+
+    <h3 class="mt-40">What you get:</h3>
+    <ul>
+      <li>Per-bot memory isolation with <code>memory_namespace_*</code> tools</li>
+      <li>Persistent self-models that survive restarts</li>
+      <li>Procedural skill libraries shared or per-bot</li>
+      <li>Audit trail on every read/write</li>
+    </ul>
+
+    <h2 class="mt-40">Long-Running Agents</h2>
+    <p>Agents that work across days, weeks, or months need memory that persists beyond a single context window. mem20's ledger and deep-store give you that persistence — with full epistemic status tracking so the agent knows what's certain vs. speculative.</p>
+
+    <h3 class="mt-40">What you get:</h3>
+    <ul>
+      <li>Working memory that survives session restarts</li>
+      <li>Vector + BM25 hybrid recall for long-range retrieval</li>
+      <li>Epistemic status on every record (certain / uncertain / quarantined)</li>
+      <li>Epistemic veto prevents acting on low-trust premises</li>
+    </ul>
+
+    <h2 class="mt-40">Research & Simulation</h2>
+    <p>Run counterfactuals, explore hypotheticals, and model scenarios — without polluting grounded recall. mem20's simulation partition is a sandbox you can write freely into, and promotion to grounded status requires real evidence.</p>
+
+    <h3 class="mt-40">What you get:</h3>
+    <ul>
+      <li><code>imagination_counterfactual()</code> for "what if" exploration</li>
+      <li><code>world_model_do()</code> for causal simulation</li>
+      <li>Prediction ledger that tracks forecasts against outcomes</li>
+      <li>Evidence-based promotion (no honor-system upgrades)</li>
+    </ul>
+
+    <h2 class="mt-40">Customer-Facing AI</h2>
+    <p>Chatbots and assistants that remember user preferences, past conversations, and stated needs — while keeping those memories grounded in real interactions, not hallucinated personas.</p>
+
+    <h3 class="mt-40">What you get:</h3>
+    <ul>
+      <li>User-specific memory pins (<code>memory_pin</code>)</li>
+      <li>Grounded preference tracking</li>
+      <li>Auditability for compliance</li>
+      <li>No cross-contamination between users</li>
+    </ul>
+
+    <h2 class="mt-40">Creative & 3D Workflows</h2>
+    <p>With optional Blender and Unity modules, agents can persist project state, remember design decisions, and build on past creative work across sessions.</p>
+
+    <h3 class="mt-40">What you get:</h3>
+    <ul>
+      <li>7 Blender tools (modeling, rendering, scene management)</li>
+      <li>5 Unity tools (build, test, script generation)</li>
+      <li>Graceful degradation when external apps are absent</li>
+      <li>Extensible template for Figma, Unreal, and more</li>
+    </ul>
+
+    <h2 class="mt-40">Safety-Critical Agents</h2>
+    <p>For any deployment where an agent acting on false memory is unacceptable. The contamination firewall, epistemic veto, and audit engine make mem20 the memory layer you can actually trust in production.</p>
+
+    <div class="callout callout-danger">
+      <div class="callout-title">Non-Negotiable Safety</div>
+      <p>mem20 is designed so that a confabulated memory cannot influence agent behavior at the storage layer. This is not a feature you enable — it's the architecture.</p>
+    </div>
+
+    <div class="text-center mt-40">
+      <a href="beta.html" class="btn btn-primary">Join the Beta →</a>
+    </div>
+
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-copy">© 2026 mem20 · MIT License</div>
+    <div class="footer-links">
+      <a href="https://github.com/JaysonAIOnline/mem20">GitHub</a>
+      <a href="docs.html">Docs</a>
+      <a href="roadmap.html">Roadmap</a>
+      <a href="beta.html">Beta</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
