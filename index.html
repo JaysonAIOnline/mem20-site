@@ -3,157 +3,348 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>mem20 — Persistent Memory + Cognition for AI Agents</title>
-<meta name="description" content="mem20 is an auditable memory and cognition substrate for AI agents. Grounded recall you can prove, simulation you can fence.">
-<link rel="stylesheet" href="assets/style.css">
+<title>mem20 — Memory That Persists. Intelligence That Remembers.</title>
+<meta name="description" content="mem20 is the persistent cognitive layer for autonomous AI agents. Stop agents from forgetting between sessions — give them recall, self-modeling, theory of mind, and a world model that survives restarts.">
+
+<!-- Tailwind CSS CDN -->
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          navy: { 950: '#0A0F1E', 900: '#111827', 800: '#1a2130' },
+          cyan: { 400: '#00D4FF', 500: '#00B8E6' },
+          amber: { 400: '#FFB800' },
+          emerald: { 400: '#10B981' },
+          slate: { 100: '#E8ECF1', 400: '#9CA3AF', 500: '#6B7280' }
+        },
+        fontFamily: {
+          sans: ['Inter', 'system-ui', 'sans-serif'],
+          mono: ['JetBrains Mono', 'ui-monospace', 'monospace']
+        }
+      }
+    }
+  }
+</script>
+
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+  /* Tailwind v3 preflight handles reset. Custom utilities below. */
+  html { scroll-behavior: smooth; }
+  body { background: #0A0F1E; color: #E8ECF1; font-family: 'Inter', sans-serif; }
+  .hero-grid-bg {
+    background-image:
+      linear-gradient(rgba(0,212,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,212,255,0.03) 1px, transparent 1px);
+    background-size: 48px 48px;
+  }
+  .card-glow:hover {
+    box-shadow: 0 0 32px rgba(0,212,255,0.08), inset 0 0 0 1px rgba(0,212,255,0.3);
+  }
+  .pulse-dot {
+    animation: pulse-dot 2s ease-in-out infinite;
+  }
+  @keyframes pulse-dot {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(0.85); }
+  }
+  .fade-up {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeUp 0.6s ease-out forwards;
+  }
+  .fade-up-delay-1 { animation-delay: 0.1s; }
+  .fade-up-delay-2 { animation-delay: 0.2s; }
+  .fade-up-delay-3 { animation-delay: 0.3s; }
+  .fade-up-delay-4 { animation-delay: 0.4s; }
+  @keyframes fadeUp {
+    to { opacity: 1; transform: translateY(0); }
+  }
+  /* Reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    .fade-up, .pulse-dot { animation: none; opacity: 1; transform: none; }
+  }
+</style>
 </head>
-<body>
+<body class="antialiased">
 
 <!-- NAV -->
-<nav class="nav">
-  <div class="nav-inner">
-    <a href="index.html" class="nav-logo">mem20<span>/</span></a>
-    <div class="nav-links">
-      <a href="docs.html">Docs</a>
-      <a href="use-cases.html">Use Cases</a>
-      <a href="roadmap.html">Roadmap</a>
-      <a href="contributors.html">Contributors</a>
-      <a href="beta.html" class="nav-cta">Beta Signup</a>
+<nav class="fixed top-0 left-0 right-0 z-50 backdrop-blur-xl border-b border-white/5" style="background: rgba(10,15,30,0.82);">
+  <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+    <a href="index.html" class="font-mono text-sm font-bold text-cyan-400 tracking-tight">mem20<span class="text-slate-400 font-normal">/</span></a>
+    <div class="flex items-center gap-7">
+      <a href="docs.html" class="text-sm text-slate-400 hover:text-cyan-400 transition-colors">Docs</a>
+      <a href="use-cases.html" class="text-sm text-slate-400 hover:text-cyan-400 transition-colors">Use Cases</a>
+      <a href="roadmap.html" class="text-sm text-slate-400 hover:text-cyan-400 transition-colors">Roadmap</a>
+      <a href="contributors.html" class="text-sm text-slate-400 hover:text-cyan-400 transition-colors">Contributors</a>
+      <a href="beta.html" class="font-mono text-xs px-4 py-2 border border-cyan-400/60 rounded-md text-cyan-400 hover:bg-cyan-400 hover:text-navy-950 transition-all duration-200">Beta Signup</a>
+    </div>
+    <!-- Mobile: hidden on small screens -->
+    <div class="hidden max-md:flex">
+      <button id="mobile-menu-btn" class="text-slate-400 hover:text-cyan-400" aria-label="Toggle menu">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+      </button>
     </div>
   </div>
 </nav>
 
 <!-- HERO -->
-<section class="hero">
-  <div class="hero-inner">
-    <div class="hero-badge"><span class="dot"></span>v2.1.0-rc2 · code frozen, QA audit in progress</div>
-    <h1>The <span class="hl">auditable memory</span> + cognition substrate for AI agents</h1>
-    <p class="hero-sub">Grounded recall you can prove. Simulation you can fence. mem20 separates real memory from imagined memory at the storage layer — and enforces that separation with a contamination firewall.</p>
-    <div class="hero-actions">
-      <a href="beta.html" class="btn btn-primary">Join the Beta →</a>
-      <a href="docs.html" class="btn btn-outline">Read the Docs</a>
+<section class="relative min-h-screen flex items-center justify-center text-center px-6 pt-32 pb-20 overflow-hidden hero-grid-bg">
+  <!-- Ambient glow -->
+  <div class="pointer-events-none absolute inset-0" style="background: radial-gradient(ellipse 70% 50% at 50% 30%, rgba(0,212,255,0.06) 0%, transparent 70%);"></div>
+
+  <div class="relative z-10 max-w-3xl mx-auto">
+    <!-- Badge -->
+    <div class="fade-up inline-flex items-center gap-2 font-mono text-xs px-4 py-1.5 rounded-full border border-white/10 text-slate-400 mb-8">
+      <span class="w-1.5 h-1.5 rounded-full bg-cyan-400 pulse-dot"></span>
+      Built for multi-agent fleets · Powered by 28 cognitive paradigms
+    </div>
+
+    <!-- Headline -->
+    <h1 class="fade-up fade-up-delay-1 text-5xl md:text-6xl lg:text-7xl font-extrabold leading-[1.08] tracking-tight mb-6">
+      Memory That Persists.<br>
+      <span class="text-cyan-400">Intelligence That Remembers.</span>
+    </h1>
+
+    <!-- Subhead -->
+    <p class="fade-up fade-up-delay-2 text-lg md:text-xl text-slate-400 max-w-2xl mx-auto mb-10 leading-relaxed">
+      Mem20 is the persistent cognitive layer for autonomous AI agents. Stop agents from forgetting between sessions — give them recall, self-modeling, theory of mind, and a world model that survives restarts.
+    </p>
+
+    <!-- Supporting line -->
+    <p class="fade-up fade-up-delay-3 font-mono text-xs text-slate-500 mb-10 tracking-wide">
+      Zero context loss · Cross-session recall · 28 cognitive paradigms
+    </p>
+
+    <!-- Primary CTAs -->
+    <div class="fade-up fade-up-delay-4 flex flex-wrap gap-4 justify-center">
+      <a href="https://github.com/JaysonAIOnline/mem20" class="inline-flex items-center gap-2 font-mono text-sm font-semibold px-7 py-3.5 bg-cyan-400 text-navy-950 rounded-lg shadow-lg shadow-cyan-400/20 hover:bg-cyan-500 hover:shadow-cyan-400/30 transition-all duration-200">
+        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+        Star on GitHub
+      </a>
+      <a href="beta.html" class="inline-flex items-center gap-2 font-mono text-sm font-medium px-7 py-3.5 border border-white/15 rounded-lg text-slate-100 hover:border-cyan-400/50 hover:text-cyan-400 transition-all duration-200">
+        Get Started →
+      </a>
     </div>
   </div>
 </section>
 
-<!-- STATS BAR -->
-<div class="stats-bar">
-  <div class="stat"><div class="stat-val">97</div><div class="stat-label">MCP Tools</div></div>
-  <div class="stat"><div class="stat-val">13</div><div class="stat-label">Tool Domains</div></div>
-  <div class="stat"><div class="stat-val">0.0</div><div class="stat-label">Contamination Rate</div></div>
-  <div class="stat"><div class="stat-val">MIT</div><div class="stat-label">License</div></div>
-</div>
+<!-- VALUE PROP CARDS -->
+<section class="py-24 px-6">
+  <div class="max-w-6xl mx-auto">
+    <div class="text-center mb-16">
+      <span class="inline-block font-mono text-xs tracking-widest uppercase text-cyan-400 mb-3">Why mem20</span>
+      <h2 class="text-3xl md:text-4xl font-bold tracking-tight">Cognitive infrastructure that persists</h2>
+      <p class="text-slate-400 mt-3 max-w-xl mx-auto">Four capabilities that turn forgetful agents into systems that learn, adapt, and remember — across restarts, model swaps, and fleet reconfigurations.</p>
+    </div>
 
-<!-- VISION -->
-<section style="background:var(--bg-alt)">
-  <div class="wrap">
-    <div class="section-label">Project Vision</div>
-    <h2>Memory that earns trust through proof</h2>
-    <p style="max-width:720px;font-size:1.05rem">Today's AI agents hallucinate, confabulate, and forget — not because they're broken, but because their memory systems treat every stored token as equally real. mem20 fixes that by partitioning memory at the engine level:</p>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
 
-    <div class="features">
-      <div class="feature-card">
-        <div class="feature-icon">🧠</div>
-        <h3>Grounded Memory</h3>
-        <p>Facts derived from real observations, user statements, or events. Indexed, searchable, and always attributable.</p>
+      <!-- Card 1: Persistent Memory -->
+      <div class="group rounded-xl border border-white/10 bg-navy-900 p-8 transition-all duration-200 card-glow hover:border-cyan-400/40">
+        <div class="w-10 h-10 rounded-lg bg-cyan-400/10 flex items-center justify-center mb-5">
+          <svg class="w-5 h-5 text-cyan-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"/></svg>
+        </div>
+        <h3 class="text-lg font-semibold mb-2">Persistent Memory</h3>
+        <ul class="space-y-2 text-sm text-slate-400">
+          <li class="flex items-start gap-2"><span class="text-emerald-400 mt-0.5">✓</span> Cross-session recall that survives crashes and restarts</li>
+          <li class="flex items-start gap-2"><span class="text-emerald-400 mt-0.5">✓</span> SQLite-backed with FTS5 full-text search</li>
+          <li class="flex items-start gap-2"><span class="text-emerald-400 mt-0.5">✓</span> No more lost context between agent runs</li>
+        </ul>
       </div>
-      <div class="feature-card">
-        <div class="feature-icon">💭</div>
-        <h3>Simulated Memory</h3>
-        <p>Hypotheticals, counterfactuals, and imagined scenarios — fenced off from recall indexes, never contaminating grounded truth.</p>
+
+      <!-- Card 2: Theory of Mind -->
+      <div class="group rounded-xl border border-white/10 bg-navy-900 p-8 transition-all duration-200 card-glow hover:border-cyan-400/40">
+        <div class="w-10 h-10 rounded-lg bg-amber-400/10 flex items-center justify-center mb-5">
+          <svg class="w-5 h-5 text-amber-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+        </div>
+        <h3 class="text-lg font-semibold mb-2">Theory of Mind</h3>
+        <ul class="space-y-2 text-sm text-slate-400">
+          <li class="flex items-start gap-2"><span class="text-emerald-400 mt-0.5">✓</span> Model what humans and other agents believe, want, and intend</li>
+          <li class="flex items-start gap-2"><span class="text-emerald-400 mt-0.5">✓</span> Essential for multi-agent collaboration and handoffs</li>
+          <li class="flex items-start gap-2"><span class="text-emerald-400 mt-0.5">✓</span> Tracks epistemic state: facts vs. inferences vs. speculation</li>
+        </ul>
       </div>
-      <div class="feature-card">
-        <div class="feature-icon">🛡️</div>
-        <h3>Evidence-Based Promotion</h3>
-        <p>Simulated records become grounded only when paired with real-world prediction resolution — not free-text self-assertion.</p>
+
+      <!-- Card 3: Cognitive Evolution -->
+      <div class="group rounded-xl border border-white/10 bg-navy-900 p-8 transition-all duration-200 card-glow hover:border-cyan-400/40">
+        <div class="w-10 h-10 rounded-lg bg-emerald-400/10 flex items-center justify-center mb-5">
+          <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+        </div>
+        <h3 class="text-lg font-semibold mb-2">Cognitive Evolution</h3>
+        <ul class="space-y-2 text-sm text-slate-400">
+          <li class="flex items-start gap-2"><span class="text-emerald-400 mt-0.5">✓</span> 28 structured reasoning paradigms built into the agent loop</li>
+          <li class="flex items-start gap-2"><span class="text-emerald-400 mt-0.5">✓</span> Failures are logged, analyzed, and never repeated</li>
+          <li class="flex items-start gap-2"><span class="text-emerald-400 mt-0.5">✓</span> Each session makes the next one measurably smarter</li>
+        </ul>
       </div>
-      <div class="feature-card">
-        <div class="feature-icon">🔍</div>
-        <h3>Audit Engine</h3>
-        <p>Run <code>memory_audit_contamination()</code> anytime. A clean system reports rate 0.0 — and the firewall makes that invariant structural.</p>
+
+      <!-- Card 4: World Modeling -->
+      <div class="group rounded-xl border border-white/10 bg-navy-900 p-8 transition-all duration-200 card-glow hover:border-cyan-400/40">
+        <div class="w-10 h-10 rounded-lg bg-purple-400/10 flex items-center justify-center mb-5">
+          <svg class="w-5 h-5 text-purple-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        </div>
+        <h3 class="text-lg font-semibold mb-2">World Modeling</h3>
+        <ul class="space-y-2 text-sm text-slate-400">
+          <li class="flex items-start gap-2"><span class="text-emerald-400 mt-0.5">✓</span> Structured representation of environment, relationships, and project state</li>
+          <li class="flex items-start gap-2"><span class="text-emerald-400 mt-0.5">✓</span> Roadmaps, procedural skills, and self-model all persist</li>
+          <li class="flex items-start gap-2"><span class="text-emerald-400 mt-0.5">✓</span> Agents wake up oriented — no onboarding tax</li>
+        </ul>
       </div>
-      <div class="feature-card">
-        <div class="feature-icon">⚡</div>
-        <h3>MCP-Native</h3>
-        <p>Speaks Model Context Protocol over stdio. Drop into Hermes, Claude, Cursor, or any MCP host. 97 tools, 13 domains.</p>
+
+    </div>
+  </div>
+</section>
+
+<!-- ARCHITECTURE SECTION -->
+<section class="py-24 px-6 border-t border-white/5" style="background: #080c14;">
+  <div class="max-w-6xl mx-auto">
+    <div class="text-center mb-12">
+      <span class="inline-block font-mono text-xs tracking-widest uppercase text-cyan-400 mb-3">Technical Architecture</span>
+      <h2 class="text-3xl md:text-4xl font-bold tracking-tight">How mem20 works under the hood</h2>
+      <p class="text-slate-400 mt-3 max-w-2xl mx-auto">A layered cognitive stack — from transport to governance — enforcing epistemic rigor at every level.</p>
+    </div>
+
+    <!-- Terminal-style architecture diagram -->
+    <div class="rounded-xl border border-white/10 overflow-hidden shadow-2xl shadow-black/40">
+      <!-- Terminal chrome -->
+      <div class="flex items-center gap-2 px-5 py-3 border-b border-white/5" style="background: #0d1117;">
+        <div class="w-3 h-3 rounded-full bg-red-500/80"></div>
+        <div class="w-3 h-3 rounded-full bg-yellow-500/80"></div>
+        <div class="w-3 h-3 rounded-full bg-green-500/80"></div>
+        <span class="ml-3 font-mono text-xs text-slate-500">mem20-architecture</span>
       </div>
-      <div class="feature-card">
-        <div class="feature-icon">🔌</div>
-        <h3>Pluggable Integrations</h3>
-        <p>Blender and Unity ship as optional modules. Add Figma, Unreal, or anything else via the blank integration template.</p>
+      <!-- Terminal body -->
+      <div class="p-6 md:p-8 overflow-x-auto font-mono text-sm leading-relaxed" style="background: #0d1117;">
+<pre class="text-slate-300">
+┌─────────────────────────────────────────────┐
+│              MEM20 COGNITIVE LAYER           │
+├─────────────────────────────────────────────┤
+│  ┌─────────────┐  ┌──────────────────────┐  │
+│  │ Memory Store│  │  Cognitive Paradigms │  │
+│  │ (SQLite+FTS5)│  │  (28 Models)         │  │
+│  └──────┬──────┘  └──────────┬───────────┘  │
+│         │                    │              │
+│  ┌──────┴────────────────────┴───────────┐  │
+│  │         Reasoning Engine              │  │
+│  │  • Premise Validation                 │  │
+│  │  • Adversarial Falsification          │  │
+│  │  • Triple-Pathway Reasoning           │  │
+│  │  • Post-Mortem Analysis               │  │
+│  └──────────────────┬────────────────────┘  │
+│                     │                       │
+│  ┌──────────────────┴────────────────────┐  │
+│  │         Self-Model Layer              │  │
+│  │  • Affective State Tracking           │  │
+│  │  • Theory of Mind (Multi-Agent)       │  │
+│  │  • Imagination / Counterfactuals      │  │
+│  └──────────────────┬────────────────────┘  │
+│                     │                       │
+│  ┌──────────────────┴────────────────────┐  │
+│  │         Persistence Layer             │  │
+│  │  • Procedural Skills (skill_manage)   │  │
+│  │  • Roadmaps & Goal Tracking           │  │
+│  │  • World Model (Environment Graph)    │  │
+│  │  • Fail Log (Cross-Session Learning)  │  │
+│  └───────────────────────────────────────┘  │
+└─────────────────────────────────────────────┘</pre>
+      </div>
+    </div>
+
+    <!-- Technical highlights -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-8">
+      <div class="flex items-start gap-3 p-4 rounded-lg bg-navy-900/50 border border-white/5">
+        <span class="text-cyan-400 font-mono text-xs mt-0.5">01</span>
+        <div>
+          <div class="text-sm font-medium text-slate-100">SQLite + FTS5</div>
+          <div class="text-xs text-slate-500 mt-0.5">Fast, local-first persistence</div>
+        </div>
+      </div>
+      <div class="flex items-start gap-3 p-4 rounded-lg bg-navy-900/50 border border-white/5">
+        <span class="text-cyan-400 font-mono text-xs mt-0.5">02</span>
+        <div>
+          <div class="text-sm font-medium text-slate-100">28 Cognitive Paradigms</div>
+          <div class="text-xs text-slate-500 mt-0.5">Structured reasoning nodes</div>
+        </div>
+      </div>
+      <div class="flex items-start gap-3 p-4 rounded-lg bg-navy-900/50 border border-white/5">
+        <span class="text-cyan-400 font-mono text-xs mt-0.5">03</span>
+        <div>
+          <div class="text-sm font-medium text-slate-100">Epistemic Boundaries</div>
+          <div class="text-xs text-slate-500 mt-0.5">facts ≠ inferences ≠ speculation</div>
+        </div>
+      </div>
+      <div class="flex items-start gap-3 p-4 rounded-lg bg-navy-900/50 border border-white/5">
+        <span class="text-cyan-400 font-mono text-xs mt-0.5">04</span>
+        <div>
+          <div class="text-sm font-medium text-slate-100">Cross-Session Fail Log</div>
+          <div class="text-xs text-slate-500 mt-0.5">Automatic lesson extraction</div>
+        </div>
+      </div>
+      <div class="flex items-start gap-3 p-4 rounded-lg bg-navy-900/50 border border-white/5">
+        <span class="text-cyan-400 font-mono text-xs mt-0.5">05</span>
+        <div>
+          <div class="text-sm font-medium text-slate-100">Multi-Agent A2A</div>
+          <div class="text-xs text-slate-500 mt-0.5">Agent communication bridge</div>
+        </div>
+      </div>
+      <div class="flex items-start gap-3 p-4 rounded-lg bg-navy-900/50 border border-white/5">
+        <span class="text-cyan-400 font-mono text-xs mt-0.5">06</span>
+        <div>
+          <div class="text-sm font-medium text-slate-100">Sub-Agent Delegation</div>
+          <div class="text-xs text-slate-500 mt-0.5">Isolated contexts per task</div>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- HOW IT WORKS -->
-<section>
-  <div class="wrap-narrow">
-    <div class="section-label">How It Works</div>
-    <h2>Four layers, one hard invariant</h2>
-    <p>mem20 is not a wrapper around a vector DB. It's a purpose-built memory engine with protocol, cognition, storage, and governance layers — all enforcing a single rule: <strong>simulated content never reaches grounded indexes</strong>.</p>
-
-    <div class="callout">
-      <div class="callout-title">The Invariant</div>
-      <p>Vector and BM25 indexes are grounded-only by construction. <code>_add_to_vector_index()</code> and <code>_add_to_bm25_index()</code> call <code>_assert_grounded()</code> on the lowest write path. Contamination is impossible regardless of which tool invoked the write.</p>
+<!-- CTA SECTION -->
+<section class="py-24 px-6 text-center">
+  <div class="max-w-2xl mx-auto">
+    <h2 class="text-3xl md:text-4xl font-bold tracking-tight mb-4">Give your agents real memory.</h2>
+    <p class="text-slate-400 text-lg mb-10">Join the beta. Get early access, direct input on the roadmap, and a channel to the team building it.</p>
+    <div class="flex flex-wrap gap-4 justify-center">
+      <a href="beta.html" class="inline-flex items-center gap-2 font-mono text-sm font-semibold px-7 py-3.5 bg-cyan-400 text-navy-950 rounded-lg shadow-lg shadow-cyan-400/20 hover:bg-cyan-500 transition-all duration-200">
+        Join the Fleet →
+      </a>
+      <a href="docs.html" class="inline-flex items-center gap-2 font-mono text-sm font-medium px-7 py-3.5 border border-white/15 rounded-lg text-slate-100 hover:border-cyan-400/50 hover:text-cyan-400 transition-all duration-200">
+        Read the Docs
+      </a>
     </div>
-
-    <table>
-      <tr><th>Layer</th><th>What it does</th><th>Where it lives</th></tr>
-      <tr><td>Transport</td><td>MCP server, JSON-RPC 2.0 over stdio</td><td><code>mcp/mcp_server.py</code></td></tr>
-      <tr><td>Cognition</td><td>Plan, chain, reason, reflect, working memory</td><td><code>cog/cognitive_engine.py</code></td></tr>
-      <tr><td>Memory</td><td>Grounded vs simulated store, vector + BM25 indexes</td><td><code>memory_engine/memory.py</code></td></tr>
-      <tr><td>Governance</td><td>Contamination guards, epistemic veto, audit</td><td>Enforced at the store engine level</td></tr>
-    </table>
-  </div>
-</section>
-
-<!-- USE CASE PREVIEW -->
-<section style="background:var(--bg-alt)">
-  <div class="wrap">
-    <div class="section-label">What It's For</div>
-    <h2>Built for teams who can't afford confabulation</h2>
-    <div class="features">
-      <div class="feature-card">
-        <h3>🤖 Multi-Agent Fleets</h3>
-        <p>126 bots, isolated namespaces, cross-contamination rate 0%. Persistent per-bot memory that survives restarts and model swaps.</p>
-      </div>
-      <div class="feature-card">
-        <h3>🏗️ Long-Running Agents</h3>
-        <p>Working memory that persists across sessions. An agent that remembers what it was doing yesterday, last week, last month.</p>
-      </div>
-      <div class="feature-card">
-        <h3>🧪 Research & Simulation</h3>
-        <p>Run counterfactuals without polluting grounded recall. Promote simulations to facts only when evidence supports it.</p>
-      </div>
+    <div class="mt-10 flex flex-wrap justify-center gap-6 text-sm">
+      <a href="https://github.com/JaysonAIOnline/mem20" class="text-slate-500 hover:text-cyan-400 transition-colors">View Architecture</a>
+      <span class="text-slate-700">·</span>
+      <a href="#architecture" class="text-slate-500 hover:text-cyan-400 transition-colors">See the Paradigms</a>
+      <span class="text-slate-700">·</span>
+      <a href="contributors.html" class="text-slate-500 hover:text-cyan-400 transition-colors">Contributors</a>
     </div>
-    <div class="text-center mt-40">
-      <a href="use-cases.html" class="btn btn-outline">See All Use Cases →</a>
-    </div>
-  </div>
-</section>
-
-<!-- CTA -->
-<section style="text-align:center">
-  <div class="wrap-narrow">
-    <h2>Ready to give your agents real memory?</h2>
-    <p class="mb-40">Join the beta. Get early access, direct input on the roadmap, and a channel to the team building it.</p>
-    <a href="beta.html" class="btn btn-primary">Sign Up for Beta →</a>
   </div>
 </section>
 
 <!-- FOOTER -->
-<footer class="footer">
-  <div class="footer-inner">
-    <div class="footer-copy">© 2026 mem20 · MIT License · Built by <a href="https://github.com/JaysonAIOnline" style="color:var(--accent)">JaysonAIOnline</a></div>
-    <div class="footer-links">
-      <a href="https://github.com/JaysonAIOnline/mem20">GitHub</a>
-      <a href="docs.html">Docs</a>
-      <a href="roadmap.html">Roadmap</a>
-      <a href="beta.html">Beta</a>
+<footer class="border-t border-white/5 py-10 px-6" style="background: #080c14;">
+  <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+    <div class="font-mono text-xs text-slate-500">
+      © 2026 mem20 · MIT License · Built by <a href="https://github.com/JaysonAIOnline" class="text-cyan-400 hover:text-cyan-500">JaysonAIOnline</a>
+    </div>
+    <div class="flex gap-7">
+      <a href="https://github.com/JaysonAIOnline/mem20" class="text-sm text-slate-500 hover:text-cyan-400 transition-colors">GitHub</a>
+      <a href="docs.html" class="text-sm text-slate-500 hover:text-cyan-400 transition-colors">Docs</a>
+      <a href="roadmap.html" class="text-sm text-slate-500 hover:text-cyan-400 transition-colors">Roadmap</a>
+      <a href="beta.html" class="text-sm text-slate-500 hover:text-cyan-400 transition-colors">Beta</a>
+      <a href="contributors.html" class="text-sm text-slate-500 hover:text-cyan-400 transition-colors">Contributors</a>
     </div>
   </div>
 </footer>
+
+<!-- Anchor for "See the Paradigms" -->
+<div id="architecture" class="sr-only"></div>
 
 </body>
 </html>
